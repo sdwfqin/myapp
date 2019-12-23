@@ -16,7 +16,7 @@ export default () => (
   <PageHeaderWrapper>
     <Card>
       <Alert
-        message="打造企业信息化快速脚手架"
+        message="打造企业信息化快速开发脚手架"
         type="success"
         showIcon
         banner

@@ -91,7 +91,7 @@ export default {
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['ROLE_Admin', 'ROLE_User'],
+          authority: ['ROLE_ADMIN', 'ROLE_USER'],
           routes: [
             {
               path: '/',
@@ -108,13 +108,13 @@ export default {
               name: 'admin',
               icon: 'crown',
               component: './Admin',
-              authority: ['ROLE_Admin'],
+              authority: ['ROLE_ADMIN'],
             },
             {
               path: '/system',
               name: 'system',
               icon: 'setting',
-              authority: ['ROLE_Admin', 'ROLE_User'],
+              authority: ['ROLE_ADMIN', 'ROLE_USER'],
               routes: [
                 {
                   path: '/',
