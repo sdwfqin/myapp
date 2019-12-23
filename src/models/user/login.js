@@ -1,6 +1,6 @@
 import {stringify} from 'querystring';
 import router from 'umi/router';
-import {fakeAccountLogin, getFakeCaptcha, logout} from '@/services/login';
+import {fakeAccountLogin, getFakeCaptcha, logout} from '@/services/user/login';
 import {setAuthority} from '@/utils/authority';
 import {setAccessToken} from '@/utils/token';
 import {getPageQuery} from '@/utils/utils';

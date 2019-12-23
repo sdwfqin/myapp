@@ -1,4 +1,4 @@
-import defaultSettings from '../../config/defaultSettings';
+import defaultSettings from '../../../config/defaultSettings';
 
 const updateColorWeak = colorWeak => {
   const root = document.getElementById('root');

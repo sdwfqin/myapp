@@ -16,12 +16,32 @@ export default () => (
   <PageHeaderWrapper>
     <Card>
       <Alert
+        message="打造企业信息化快速脚手架"
+        type="success"
+        showIcon
+        banner
+        style={{
+          margin: -12,
+          marginBottom: 24,
+        }}
+      />
+      <Typography.Text strong>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/sdwfqin/SpringCloudSample">
+          <FormattedMessage
+            id="app.welcome.link.cloud-sample"
+            defaultMessage="点击查看后端SpringCloudSample代码"
+          />
+        </a>
+      </Typography.Text>
+      <CodePreview>https://github.com/sdwfqin/SpringCloudSample</CodePreview>
+      <Alert
         message="umi ui 现已发布，点击右下角 umi 图标即可使用"
         type="success"
         showIcon
         banner
         style={{
           margin: -12,
+          marginTop: 24,
           marginBottom: 24,
         }}
       />

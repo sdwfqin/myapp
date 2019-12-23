@@ -3,6 +3,8 @@ export default {
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '管理页',
+  'menu.system': '系统管理',
+  'menu.system.role': '角色管理',
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register.result': '注册结果',
