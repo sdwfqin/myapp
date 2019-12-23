@@ -24,7 +24,6 @@ const UserModel = {
   },
   reducers: {
     saveCurrentUser(state, action) {
-      console.log(action);
       let user;
       if (action.payload === undefined) {
         user = {}

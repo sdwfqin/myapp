@@ -118,10 +118,11 @@ export default {
               routes: [
                 {
                   path: '/',
-                  redirect: '/role',
+                  redirect: '/system/role',
                 }, {
                   path: '/system/role',
                   name: 'role',
+                  component: './system/role',
                 },
               ]
             },

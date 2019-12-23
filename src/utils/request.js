@@ -84,10 +84,7 @@ const request = extend({
 
 // request拦截器
 request.interceptors.request.use(async (url, options) => {
-
   options.headers.Authorization = `Bearer ${getAccessToken()}`;
-
-  console.log(options.headers.Authorization);
   return {url, options};
 });
 
@@ -102,7 +99,6 @@ export const requestForm = (interfaceName, method = "POST", params = {}) =>
       error.response = value.response;
       throw error
     } else {
-      console.log(value.data);
       return value.data;
     }
   }).catch(reason => {
