@@ -1,12 +1,14 @@
-import {Button, Card, Col, Row, Table} from 'antd';
+import {Button, Card, Col, Divider, Row, Table} from 'antd';
 import React, {Component} from 'react';
 import {connect} from 'dva';
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
 import styles from '@/utils/utils.less';
+import RoleAdd from "@/pages/system/role/components/RoleAdd";
 
 class Role extends Component {
 
   state = {
+    addModalVisible: false,
     pagination: {
       current: 1,
       defaultPageSize: 10
@@ -18,7 +20,7 @@ class Role extends Component {
         key: 'name',
         align: 'center',
         ellipsis: 'true',
-        width: '20%'
+        width: '18%'
       },
       {
         title: '描述',
@@ -26,7 +28,7 @@ class Role extends Component {
         key: 'description',
         align: 'center',
         ellipsis: 'true',
-        width: '30%'
+        width: '25%'
       },
       {
         title: '备注',
@@ -34,7 +36,7 @@ class Role extends Component {
         key: 'remark',
         align: 'center',
         ellipsis: 'true',
-        width: '30%'
+        width: '25%'
       },
       {
         title: '创建者',
@@ -42,8 +44,21 @@ class Role extends Component {
         key: 'userIdCreate',
         align: 'center',
         ellipsis: 'true',
-        width: '20%'
+        width: '16%'
       },
+      {
+        title: '操作',
+        key: 'action',
+        align: 'center',
+        width: '16%',
+        render: (text, record) => (
+          <span>
+            <a>编辑</a>
+            <Divider type="vertical"/>
+            <a>删除</a>
+          </span>
+        ),
+      }
     ]
   };
 
@@ -82,26 +97,52 @@ class Role extends Component {
     });
   };
 
+  showAddModal = () => {
+    this.setState({
+      addModalVisible: true
+    });
+  };
+
+  hideAddModal = (value) => {
+    this.setState({
+      addModalVisible: false
+    });
+    if (value !== undefined) {
+      const {dispatch} = this.props;
+
+      dispatch({
+        type: 'role/fetchRoleAdd',
+        payload: {
+          ...value
+        },
+      });
+    }
+  };
+
   render() {
-    const {role = {}, roleListing} = this.props;
+    const {role = {}, roleListLoading, roleAddLoading} = this.props;
     const {roleDataSource} = role;
-    const {roleTitles, pagination} = this.state;
+    const {roleTitles, pagination, addModalVisible} = this.state;
     return (
       <PageHeaderWrapper>
         <Card>
           <Row gutter={16} type="flex" justify="space-between" align="middle"
                className={styles.tableHeadRow}>
             <Col span={12} align="left">
-              <Button type="primary">添加</Button>
+              <Button type="primary" onClick={this.showAddModal}>添加</Button>
             </Col>
             <Col span={12} align="right">
 
             </Col>
           </Row>
+          <RoleAdd
+            visible={addModalVisible}
+            roleAddLoading={roleAddLoading}
+            hideDialog={(value) => this.hideAddModal(value)}/>
           <Table
             bordered
             rowKey={record => record.id}
-            loading={roleListing}
+            loading={roleListLoading}
             dataSource={roleDataSource}
             columns={roleTitles}
             pagination={pagination}
@@ -114,5 +155,6 @@ class Role extends Component {
 
 export default connect(({role, loading}) => ({
   role,
-  roleListing: loading.effects['role/fetchRoleList'],
+  roleListLoading: loading.effects['role/fetchRoleList'],
+  roleAddLoading: loading.effects['role/fetchRoleAdd'],
 }))(Role);

@@ -107,4 +107,26 @@ export const requestForm = (interfaceName, method = "POST", params = {}) =>
     });
   });
 
+export const requestJson = (interfaceName, method = "POST", params = {}) =>
+  request(interfaceName, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    },
+    method,
+    data: params,
+    getResponse: true
+  }).then(value => {
+    if (value.data.code !== 0) {
+      const error = new Error(value.data.msg);
+      error.response = value.response;
+      throw error
+    } else {
+      return value.data;
+    }
+  }).catch(reason => {
+    notification.error({
+      message: reason.message,
+    });
+  });
+
 export default request;
