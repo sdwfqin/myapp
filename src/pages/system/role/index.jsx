@@ -1,4 +1,4 @@
-import {Button, Card, Col, Divider, Row, Table} from 'antd';
+import {Button, Card, Col, Divider, Popconfirm, Row, Table} from 'antd';
 import React, {Component} from 'react';
 import {connect} from 'dva';
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
@@ -40,8 +40,8 @@ class Role extends Component {
       },
       {
         title: '创建者',
-        dataIndex: 'userIdCreate',
-        key: 'userIdCreate',
+        dataIndex: 'userNameCreate',
+        key: 'userNameCreate',
         align: 'center',
         ellipsis: 'true',
         width: '16%'
@@ -55,7 +55,14 @@ class Role extends Component {
           <span>
             <a>编辑</a>
             <Divider type="vertical"/>
-            <a>删除</a>
+            <Popconfirm
+            title="确认要删除当前角色吗？"
+            onConfirm={() => this.deleteItem(record.id)}
+            okText="确认"
+            cancelText="取消"
+            >
+              <a>删除</a>
+            </Popconfirm>
           </span>
         ),
       }
@@ -117,6 +124,17 @@ class Role extends Component {
         },
       });
     }
+  };
+
+  deleteItem = (id) => {
+    const {dispatch} = this.props;
+
+    dispatch({
+      type: 'role/fetchRoleDelete',
+      payload: {
+        roleId: id
+      },
+    });
   };
 
   render() {

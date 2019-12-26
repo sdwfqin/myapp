@@ -1,4 +1,4 @@
-import {getRoleList, postRoleSave} from '@/services/system/role';
+import {deleteRole, getRoleList, saveRole} from '@/services/system/role';
 
 const RoleModel = {
 
@@ -17,22 +17,35 @@ const RoleModel = {
       });
     },
     * fetchRoleAdd({payload}, {call, put}) {
-      const response = yield call(postRoleSave, payload);
+      const response = yield call(saveRole, payload);
       yield put({
         type: 'roleAdd',
+        payload: response,
+      });
+    },
+    * fetchRoleDelete({payload}, {call, put}) {
+      const response = yield call(deleteRole, payload);
+      yield put({
+        type: 'roleDelete',
         payload: response,
       });
     },
   },
 
   reducers: {
-    refreshRoleTable(state, {payload}) {
-      return {...state, roleDataSource: payload.data.datas || []};
+    refreshRoleTable(_, {payload}) {
+      return {roleDataSource: payload.data.datas || []};
     },
     roleAdd(state, {payload}) {
       return {
-        ...state,
         roleDataSource: state.roleDataSource.concat(payload.data),
+      };
+    },
+    roleDelete(state, {payload}) {
+      // 返回被删除的对象
+      state.roleDataSource.splice(state.roleDataSource.findIndex(item => item.id === payload.data), 1)
+      return {
+        roleDataSource: state.roleDataSource
       };
     },
   },

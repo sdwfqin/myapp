@@ -16,6 +16,16 @@ export async function getRoleList(params) {
  * @param params
  * @returns {Promise<* | void>}
  */
-export async function postRoleSave(params) {
+export async function saveRole(params) {
   return requestForm('/auth/role/save', 'POST', params);
+}
+
+/**
+ * 删除角色
+ *
+ * @param params
+ * @returns {Promise<* | void>}
+ */
+export async function deleteRole(params) {
+  return requestForm('/auth/role/remove', 'DELETE', params);
 }

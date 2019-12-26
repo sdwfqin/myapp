@@ -10,12 +10,14 @@ class RoleAdd extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.hideDialog({...values});
+        this.props.form.resetFields();
       }
     });
   };
 
   handleCancel = () => {
     this.props.hideDialog(undefined);
+    this.props.form.resetFields();
   };
 
   render() {
