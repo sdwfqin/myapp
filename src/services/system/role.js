@@ -21,6 +21,16 @@ export async function saveRole(params) {
 }
 
 /**
+ * 修改角色
+ *
+ * @param params
+ * @returns {Promise<* | void>}
+ */
+export async function saveEdit(params) {
+  return requestForm('/auth/role/update', 'POST', params);
+}
+
+/**
  * 删除角色
  *
  * @param params

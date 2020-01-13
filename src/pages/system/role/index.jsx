@@ -4,11 +4,14 @@ import {connect} from 'dva';
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
 import styles from '@/utils/utils.less';
 import RoleAdd from "@/pages/system/role/components/RoleAdd";
+import RoleEdit from "@/pages/system/role/components/RoleEdit";
 
 class Role extends Component {
 
   state = {
     addModalVisible: false,
+    editModalVisible: false,
+    editModalData: {},
     pagination: {
       current: 1,
       defaultPageSize: 10
@@ -53,13 +56,13 @@ class Role extends Component {
         width: '16%',
         render: (text, record) => (
           <span>
-            <a>编辑</a>
+            <a onClick={() => this.editItem(record)}>编辑</a>
             <Divider type="vertical"/>
             <Popconfirm
-            title="确认要删除当前角色吗？"
-            onConfirm={() => this.deleteItem(record.id)}
-            okText="确认"
-            cancelText="取消"
+              title="确认要删除当前角色吗？"
+              onConfirm={() => this.deleteItem(record.id)}
+              okText="确认"
+              cancelText="取消"
             >
               <a>删除</a>
             </Popconfirm>
@@ -126,6 +129,31 @@ class Role extends Component {
     }
   };
 
+  hideEditModal = (value) => {
+    console.log(value)
+    this.setState({
+      editModalVisible: false
+    });
+    if (value !== undefined) {
+      const {dispatch} = this.props;
+
+      dispatch({
+        type: 'role/fetchRoleEdit',
+        payload: {
+          ...value
+        },
+      });
+    }
+  };
+
+  editItem = (record) => {
+    console.log(record)
+    this.setState({
+      editModalData: record,
+      editModalVisible: true
+    });
+  };
+
   deleteItem = (id) => {
     const {dispatch} = this.props;
 
@@ -138,9 +166,9 @@ class Role extends Component {
   };
 
   render() {
-    const {role = {}, roleListLoading, roleAddLoading} = this.props;
+    const {role = {}, roleListLoading, roleAddLoading, roleEditLoading} = this.props;
     const {roleDataSource} = role;
-    const {roleTitles, pagination, addModalVisible} = this.state;
+    const {roleTitles, pagination, addModalVisible, editModalVisible,editModalData} = this.state;
     return (
       <PageHeaderWrapper>
         <Card>
@@ -157,6 +185,11 @@ class Role extends Component {
             visible={addModalVisible}
             roleAddLoading={roleAddLoading}
             hideDialog={(value) => this.hideAddModal(value)}/>
+          <RoleEdit
+            visible={editModalVisible}
+            roleEditLoading={roleEditLoading}
+            dataSource={editModalData}
+            hideDialog={(value) => this.hideEditModal(value)}/>
           <Table
             bordered
             rowKey={record => record.id}
@@ -175,4 +208,5 @@ export default connect(({role, loading}) => ({
   role,
   roleListLoading: loading.effects['role/fetchRoleList'],
   roleAddLoading: loading.effects['role/fetchRoleAdd'],
+  roleEditLoading: loading.effects['role/fetchRoleEdit'],
 }))(Role);
